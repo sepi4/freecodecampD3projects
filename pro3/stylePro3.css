@@ -1,0 +1,44 @@
+body { 
+  margin:0;
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0; 
+}
+
+svg {
+  overflow: visible;
+  width: auto;
+  height: auto;
+}
+
+
+.cell:hover {
+  stroke: black;
+}
+
+#tooltip {	
+    position: absolute;			
+    width: auto;					
+    height: auto;					
+    padding: 2px;				
+    font: 14px sans-serif;		
+    background: black;	
+    color:white;
+    border: 0px;		
+    /* border-radius: 8px;			 */
+    pointer-events: none;			
+}
+
+#y-axis, #x-axis {
+  font-size: 12px;		
+}
+
+#tooltip p {	
+  margin:1px;
+}
+
+.legend-axis path {
+  display:none;
+}

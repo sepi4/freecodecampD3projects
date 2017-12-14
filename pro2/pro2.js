@@ -96,6 +96,7 @@ d3.json(url).get((error, data) => {
         .attr('class', 'dot')
         .attr('data-yvalue', d => toSeconds(d.Time))
         .attr('data-xvalue', d => d.Year)
+        // .attr('data-xvalue', d => d3.timeParse('%Y-%m-%d')(d.Year) )
 
         .style('opacity', '0.6')
         .on("mousemove", function(d) {	// popingup  tooltip

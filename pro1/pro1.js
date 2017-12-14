@@ -5,6 +5,10 @@ var title = d3.select('body')
   .attr('id', 'title')
   .text('GDP');
 
+// Define the div for the tooltip
+var tooltip = d3.select("body").append("div")	
+  .style("opacity", 0);
+
 d3.json(url).get((error, data) => {
 
   //window resize handling
@@ -52,11 +56,21 @@ d3.json(url).get((error, data) => {
         .attr('y', d => yScale(d[1]))
         .attr('class', 'bar')
         .attr('fill', 'blue')
-        // making popup tooltip that show more info
-        .append("svg:title") 
-          .attr('id', 'tooltip')
-          .attr('data-date', d => d[0])
-          .text(d => d[0]+'\n'+'$'+d[1]+' Billion')
+        .on("mousemove", function(d) {	// poping up  tooltip functionality
+          // var dataDate = d3.timeParse('%Y-%m-%d')(d[0])
+          tooltip
+            .attr('id', 'tooltip')
+            .attr('data-date', d[0])
+          tooltip.transition()		
+            .style("opacity", .7);		
+          tooltip.html('<p>kissa</p>')	
+            .style("left", (d3.event.pageX+5) + "px")		
+            .style("top", (d3.event.pageY-15) + "px");
+        })					
+        .on("mouseout", function(d) {		
+          tooltip.transition()		
+            .style("opacity", 0);	
+        });
     
     //AXISES
     var yAxis = d3.axisLeft()

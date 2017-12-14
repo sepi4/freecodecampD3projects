@@ -23,7 +23,7 @@ d3.json(url).get((error, data) => {
       svgtest.remove();
     }
 
-    var h = window.innerHeight * .8;
+    var h = window.innerHeight * .6;
     var w = window.innerWidth;
     var margin = {left: 70, right:50, top: 20, bottom:50};
 
@@ -94,11 +94,13 @@ d3.json(url).get((error, data) => {
         .attr('fill',d => (d.Doping).trim().length === 0  ? 'green': 'red')
         .attr('stroke','black')
         .attr('class', 'dot')
-        .attr('data-yvalue', d => d.Year)
-        .attr('data-xvalue', d => toSeconds(d.Time))
+        .attr('data-yvalue', d => toSeconds(d.Time))
+        .attr('data-xvalue', d => d.Year)
+
         .style('opacity', '0.6')
-        .on("mouseover", function(d) {	// popingup  tooltip
-            div.transition()		
+        .on("mousemove", function(d) {	// popingup  tooltip
+            div.attr('data-year', d.Year)
+                .transition()		
                 .duration(200)		
                 .style("opacity", .6);		
             div	.html('<p>'+d.Name+': '+d.Nationality+'</p>'

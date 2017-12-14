@@ -1,0 +1,35 @@
+rect {
+    stroke: white;
+  }
+  text {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 10px;
+  }
+  
+  #title{
+    text-align: center;
+  }
+  #main{
+    text-align: center;
+  }
+  
+  #legend text{
+    font-size: 14px;
+  }
+  
+  #tooltip {	
+      position: absolute;			
+      width: auto;					
+      height: auto;					
+      font: 10px sans-serif;		
+      background: black;	
+      color:white;
+      border: 0px;		
+      border-radius: 4px;
+      pointer-events: none;			
+  }
+  
+  #tooltip p {
+    margin: 0;
+    padding:2px;
+  }

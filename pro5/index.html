@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3 treemap (freecodecamp tutorial)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="https://gitcdn.link/repo/freeCodeCamp/testable-projects-fcc/master/build/bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <div id="tooltip"></div>
+    <div id='main'>
+        <form id='data-selector'>
+        <label class="radio-inline">
+            <input type="radio" name="optradio" checked value='games'>Games
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optradio" value='movies'>Movies
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optradio" value='kickstarters'>Kickstarters
+        </label>
+        </form>
+    
+        <h1 id='title'></h1>
+        <p id='description'></p>
+        <svg id='main-svg' width="960" height="570"></svg>
+        <div id="legend"></div>
+        
+    </div>
+        <p><a href="https://beta.freecodecamp.org/en/challenges/data-visualization-projects/visualize-data-with-a-treemap-diagram">FreeCodeCamp, Data Visualization Projects: Visualize Data with a Treemap Diagram.</a> Tutorial project. Completed 2017</p>
+        
+    
+    <script src="pro5.js"></script>
+    
+</body>
+</html>

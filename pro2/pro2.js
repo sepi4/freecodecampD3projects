@@ -11,6 +11,7 @@ title.append('h2')
   .text('35 Fastest times up Alpe d');
 
 d3.json(url).get((error, data) => {
+  // console.log(data)
 
   //window resize handling
   d3.select(window).on("resize",callFunction);
@@ -33,10 +34,6 @@ d3.json(url).get((error, data) => {
       .attr('width', w);
 
 
-    console.log(data);
-    var xMax = d3.max(data, d => d.Year);
-    var xMin = d3.min(data, d => d.Year);
-    // console.log([xMin, xMax]);
 
     var toSeconds = str => { // func to convert string to seconds number
       var arr = str.split(":");
@@ -44,35 +41,50 @@ d3.json(url).get((error, data) => {
       return time
     }
 
-    var yMax = d3.max(data, d => toSeconds(d.Time));
-    var yMin = d3.min(data, d => toSeconds(d.Time));
+
+    //Y SCALE
+    var timeParser = d3.timeParse('%M:%S');
+
+    var yMax = d3.max(data, d => timeParser(d.Time));
+    var yMin = d3.min(data, d => timeParser(d.Time));
+    // console.log('time min max');
     // console.log([yMin, yMax]);
 
-    var yScale = d3.scaleLinear()
-      .domain([yMin - 10, yMax + 10])
+    var yScale = d3.scaleTime()
+      .domain([yMin, yMax])
       .range([margin.top, h-margin.bottom]);
+    
+    // console.log('yScale test')
+    // console.log(yScale(timeParser( '39:00' )))
+
 
     var yAxis = d3.axisLeft()
       .scale(yScale)
-      .tickFormat(d => { // formating the yAxis back to minutes:seconds format
-        if (d%60 === 0) 
-          return Math.floor(d/60) +":00";
-        else 
-          return Math.floor(d/60) +":"+ d%60; // adding additional zero
-      });
+      .tickFormat(d => moment(d).format('mm:ss'))
+
 
     svg.append('g')
       .attr('transform', `translate(${margin.left},0)`)
       .call(yAxis)
       .attr('id', 'y-axis');
 
-    var xScale = d3.scaleLinear()
-      .domain([xMin-1, xMax+1])
+    //X SCALE
+    var yearParser = d3.timeParse('%Y');
+
+    var xMax = d3.max(data, d => yearParser(d.Year + 1));
+    var xMin = d3.min(data, d => yearParser(d.Year - 1));
+    // console.log([xMin, xMax]);
+
+
+    var xScale = d3.scaleTime()
+      .domain([xMin, xMax])
       .range([margin.left, w-margin.right]);
+
+
 
     var xAxis = d3.axisBottom()
       .scale(xScale)
-      .tickFormat(d => d)
+      .tickFormat(d => moment(d).format('YYYY'))
 
     svg.append('g')
       .attr('transform', `translate(0, ${h-margin.bottom})`)
@@ -88,19 +100,18 @@ d3.json(url).get((error, data) => {
       .data(data)
       .enter()
       .append('circle')
-        .attr('cx', d => xScale(d.Year))
-        .attr('cy', d => yScale(toSeconds(d.Time)))
+        .attr('cx', d => xScale(yearParser(d.Year)))
+        .attr('cy', d => yScale(timeParser( d.Time )))
         .attr('r', 5)
         .attr('fill',d => (d.Doping).trim().length === 0  ? 'green': 'red')
         .attr('stroke','black')
         .attr('class', 'dot')
-        .attr('data-yvalue', d => toSeconds(d.Time))
-        .attr('data-xvalue', d => d.Year)
-        // .attr('data-xvalue', d => d3.timeParse('%Y-%m-%d')(d.Year) )
+        .attr('data-yvalue', d => timeParser( d.Time ))
+        .attr('data-xvalue', d => yearParser(d.Year).getFullYear())
 
         .style('opacity', '0.6')
         .on("mousemove", function(d) {	// popingup  tooltip
-            div.attr('data-year', d.Year)
+            div.attr('data-year', yearParser(d.Year).getFullYear())
                 .transition()		
                 .duration(200)		
                 .style("opacity", .6);		
